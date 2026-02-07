@@ -673,12 +673,25 @@
                 this.style.transform = 'scale(1)';
             });
             
-            // Для тач-устройств
-            button.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                this.style.transform = 'scale(0.96)';
-                playClickSound();
-            });
+   // Для тач-устройств
+button.addEventListener('touchstart', function(e) {
+    this.style.transform = 'scale(0.96)';
+    playClickSound();
+});
+
+button.addEventListener('touchend', function(e) {
+    this.style.transform = 'scale(1)';
+    
+    // Вызываем обработчик клика через небольшую задержку
+    setTimeout(() => {
+        const clickEvent = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: true
+        });
+        this.dispatchEvent(clickEvent);
+    }, 50);
+});
             
             button.addEventListener('touchend', function(e) {
                 e.preventDefault();
